@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  service1:
+    build: "./service1"
+    volumes:
+      - ".:/service1"
+    expose:
+      - "5000"
+    networks:
+      - app-network
+
+  service2:
+    build: "./service2"
+    volumes:
+      - ".:/service2"
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - service1
+    environment:
+      SERVICE_1_LOCATION: service1
+
+networks:
+  app-network:
+    driver: bridge
